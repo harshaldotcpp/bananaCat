@@ -1,0 +1,67 @@
+// initializeGame.js
+import * as PIXI from "pixi.js";
+import { initializeGameObjects } from "./classes/initGameObject";
+import Camera from "./classes/camera";
+import gameLoop from "./gameLoop";
+import InputHandler from './classes/inputHandler';
+import PlayerCharacterObserver from "./classes/observers/playerCharacterObserver";
+import { Quadtree,Point,Rectangle } from "./lib/quadtree";
+
+
+
+async function initializeGame(app) {
+    const sceneGraph = setupSceneGraph(app);
+    const gameObjects = await initializeGameObjects(sceneGraph.gameWorld);
+
+    const inputHandler = new InputHandler();
+    const playerCharacterObserver = new PlayerCharacterObserver(gameObjects.playerCharacter);
+    inputHandler.addObserver(playerCharacterObserver);
+
+
+    const mapSize = gameObjects.gameMap.getSize();
+    const quadtreeBoundry = new Rectangle(
+        new Point(mapSize.width/2,mapSize.height/2),
+        mapSize.width/2,mapSize.height/2
+    );
+
+    const quadtree = new Quadtree(quadtreeBoundry);
+    for(let i=0;i<400;i++){
+        quadtree.insert(new Point(Math.random() * mapSize.width, Math.random() * mapSize.height));
+    }
+   
+    quadtree.show(sceneGraph.gameWorld);
+    // debuggng code
+    const g = new PIXI.Graphics();
+    sceneGraph.gameWorld.addChild(g); 
+
+
+    const rangeBrush = new PIXI.Graphics();
+    const rangeBrush2 = new PIXI.Graphics();
+
+
+    
+    const tickerCallback = (delta) => gameLoop(
+        delta,
+        gameObjects,
+        inputHandler,
+        g,
+        sceneGraph,
+        quadtree,
+        rangeBrush1,rangeBrush2
+    );
+    app.ticker.add(tickerCallback);
+}
+
+function setupSceneGraph(app) {
+    const sceneGraph = {};
+    sceneGraph.camera = new Camera();
+    sceneGraph.gameWorld = new PIXI.Container();
+    sceneGraph.camera.addChild(sceneGraph.gameWorld);
+    app.stage.addChild(sceneGraph.camera);
+    return sceneGraph;
+}
+
+export default initializeGame;
+
+
+
