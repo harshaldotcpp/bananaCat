@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 
+    <title>Vite App</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin:0;
+            padding:0;
+        }
+        body{
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            flex-direction:column;
+        }
+        .unselectable {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            
+        }
+        
+        #controller{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1px solid red; 
+            gap: 5px;
+        }
+
+        #controller .left , .right{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+        }
+
+        #controller button {
+            width: 3.5rem;
+            height: 3.5rem;
+            padding: 1rem;
+            border-radius: 100%;
+        }
+    </style>
+     <script type="module" crossorigin src="/assets/index-7XoN9jfi.js"></script>
+   </head>
+  <body>
+    <div id="app"></div> 
+   
+     <div id="controller">
+         <div class="left movement">
+            <button class="unselectable" id="leftBtn">  </button>
+            <button class="unselectable" id="rightBtn"></button>
+        </div>
+
+        <div class="right">
+            <button id="jumpBtn" >  </button>
+        </div>
+    </div>
+
+
+  <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+ 
+ 
+  </body>
+</html>
+
