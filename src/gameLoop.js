@@ -31,23 +31,21 @@ function gameLoop(gameContext){
 
     const range = new Rectangle(
         new Point(playerCharacter.x,playerCharacter.y),
-        64,64,
+        160,160,
     );
 
 
 
 
     const playerBound = playerCharacter.getObjectBound();
-    playerCharacter.drawBound(g);
+//    playerCharacter.drawBound(g);
 
 
     manageInput(inputHandler,sceneGraph);
     
         
-    playerCharacter.update();
-    physics.handleCollision(playerCharacter,quadtree,range);
-    physics.applyGravity(playerCharacter);
-    console.log(playerCharacter.velocity);
+    physics.applyGravity(playerCharacter)
+    physics.handleCollision(playerCharacter,quadtree,range,rayGraphic);
 
 
 
@@ -58,9 +56,7 @@ function gameLoop(gameContext){
         playerCharacter.velocity.y = 0;
     }
 
-
-    
-
+    playerCharacter.update();
 
 }
 
